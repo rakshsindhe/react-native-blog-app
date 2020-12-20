@@ -8,18 +8,19 @@ import {
 } from "react-native";
 import { FlatList, TextInput } from "react-native-gesture-handler";
 import { Context as BlogContext } from "../context/BlogContext";
+import { FontAwesome } from "@expo/vector-icons";
 
 const IndexScreen = () => {
-  const { state = [], addBlogPost } = useContext(BlogContext);
+  const { state = [], addBlogPost, deleteBlogPost } = useContext(BlogContext);
   const [title, setTitle] = useState("");
 
   const handleBlogPostSubmit = () => {
-    addBlogPost({ title });
+    addBlogPost({ id: state.length + 1, title });
     setTitle("");
   };
 
   return (
-    <View style={{ padding: 20 }}>
+    <View style={{ paddingVertical: 20 }}>
       <Text>Add Blog Post</Text>
       <TextInput
         style={{ borderWidth: 1, padding: 10, fontSize: 17, marginBottom: 8 }}
@@ -43,7 +44,15 @@ const IndexScreen = () => {
         data={state}
         keyExtractor={blog => blog.title}
         renderItem={({ item }) => {
-          return <Text>{item.title}</Text>;
+          const { title, id } = item;
+          return (
+            <View style={styles.blog}>
+              <Text>{title}</Text>
+              <TouchableOpacity onPress={() => deleteBlogPost(id)}>
+                <FontAwesome name="trash-o" size={24} color="#FF3031" />
+              </TouchableOpacity>
+            </View>
+          );
         }}
       />
     </View>
@@ -52,4 +61,12 @@ const IndexScreen = () => {
 
 export default IndexScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  blog: {
+    padding: 13,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderTopWidth: 1
+  }
+});
