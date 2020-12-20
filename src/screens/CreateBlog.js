@@ -19,10 +19,11 @@ const CreateBlog = ({ navigation }) => {
 
   const handleOnBlogPostSubmit = () => {
     const blogId = uuidv4();
-    addBlogPost({ id: blogId, title, content });
-    setTitle("");
-    setContent("");
-    navigation.navigate("ViewBlogScreen", { id: blogId });
+    addBlogPost({ id: blogId, title, content }, () => {
+      setTitle("");
+      setContent("");
+      navigation.navigate("ViewBlogScreen", { id: blogId });
+    });
   };
   return (
     <View style={{ paddingVertical: 40, paddingHorizontal: 20 }}>

@@ -9,8 +9,7 @@ const ViewBlog = ({ navigation }) => {
 
   const { state = [] } = useContext(Context);
 
-  const [blogPost = {}] = state.filter(blog => blog.id === id);
-  const { title = "", content = "" } = blogPost;
+  const { title = "", content = "" } = state.find(blog => blog.id === id);
 
   return (
     <View style={styles.viewScreenContainer}>

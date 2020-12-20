@@ -4,6 +4,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { Context as BlogContext } from "../context/BlogContext";
 import { FontAwesome } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
+import { AntDesign } from "@expo/vector-icons";
 
 const IndexScreen = ({ navigation }) => {
   const { state = [], deleteBlogPost } = useContext(BlogContext);
@@ -32,6 +33,20 @@ const IndexScreen = ({ navigation }) => {
     </View>
   );
 };
+IndexScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate("CreateBlogScreen")}>
+        <AntDesign
+          name="pluscircle"
+          size={28}
+          color="black"
+          style={styles.addIcon}
+        />
+      </TouchableOpacity>
+    )
+  };
+};
 
 export default withNavigation(IndexScreen);
 
@@ -46,5 +61,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 17,
     fontWeight: "700"
+  },
+  addIcon: {
+    marginRight: 15
   }
 });
