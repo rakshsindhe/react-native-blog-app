@@ -7,10 +7,10 @@ import {
   Keyboard
 } from "react-native";
 import { FlatList, TextInput } from "react-native-gesture-handler";
-import BlogContext from "../context/BlogContext";
+import { Context as BlogContext } from "../context/BlogContext";
 
 const IndexScreen = () => {
-  const { data = [], addBlogPost } = useContext(BlogContext);
+  const { state = [], addBlogPost } = useContext(BlogContext);
   const [title, setTitle] = useState("");
 
   const handleBlogPostSubmit = () => {
@@ -40,7 +40,7 @@ const IndexScreen = () => {
         <Text style={{ fontSize: 18, textAlign: "center" }}>Add Blog</Text>
       </TouchableOpacity>
       <FlatList
-        data={data}
+        data={state}
         keyExtractor={blog => blog.title}
         renderItem={({ item }) => {
           return <Text>{item.title}</Text>;
