@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,23 +8,28 @@ import {
   Keyboard
 } from "react-native";
 import { withNavigation } from "react-navigation";
-import { Context as BlogContext } from "../context/BlogContext";
-import { v1 as uuidv4 } from "uuid";
+import { Context } from "../context/BlogContext";
 
-const CreateBlog = ({ navigation }) => {
-  const { addBlogPost } = useContext(BlogContext);
+const EditBlog = ({ navigation }) => {
+  const id = navigation.getParam("id");
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const { state = [], editBlogPost } = useContext(Context);
 
-  const handleOnBlogPostSubmit = () => {
-    const blogId = uuidv4();
-    addBlogPost({ id: blogId, title, content }, () => {
-      setTitle("");
-      setContent("");
-      navigation.navigate("ViewBlogScreen", { id: blogId });
+  const { title: blogTitle = "", content: blogContent = "" } = state.find(
+    blogpost => blogpost.id === id
+  );
+
+  const [title, setTitle] = useState(blogTitle);
+  const [content, setContent] = useState(blogContent);
+
+  const handleOnBlogUpdate = () => {
+    editBlogPost({ id, title, content }, () => {
+      setTitle(""),
+        setContent(""),
+        navigation.navigate("ViewBlogScreen", { id });
     });
   };
+
   return (
     <View style={{ paddingVertical: 40, paddingHorizontal: 20 }}>
       <Text style={{ marginBottom: 4 }}>Title</Text>
@@ -46,17 +51,16 @@ const CreateBlog = ({ navigation }) => {
       />
       <TouchableOpacity
         style={title === "" || content === "" ? styles.disabledBtn : styles.btn}
-        onPress={handleOnBlogPostSubmit}
+        onPress={handleOnBlogUpdate}
         disabled={title === "" || content === ""}
       >
-        <Text style={{ fontSize: 18, textAlign: "center" }}>Save</Text>
+        <Text style={{ fontSize: 18, textAlign: "center" }}>Update</Text>
       </TouchableOpacity>
     </View>
-  
   );
 };
 
-export default withNavigation(CreateBlog);
+export default withNavigation(EditBlog);
 
 const styles = StyleSheet.create({
   titleTextInput: {

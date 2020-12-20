@@ -1,8 +1,10 @@
 import React from "react";
 import { useContext } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { withNavigation } from "react-navigation";
 import { Context } from "../context/BlogContext";
+import { Entypo } from "@expo/vector-icons";
 
 const ViewBlog = ({ navigation }) => {
   const id = navigation.getParam("id");
@@ -19,6 +21,19 @@ const ViewBlog = ({ navigation }) => {
       </ScrollView>
     </View>
   );
+};
+
+ViewBlog.navigationOptions = ({ navigation }) => {
+  const id = navigation.getParam("id");
+  return {
+    headerRight: () => (
+      <TouchableOpacity
+        onPress={() => navigation.navigate("EditBlogScreen", { id })}
+      >
+        <Entypo name="edit" size={28} color="black" style={styles.icon} />
+      </TouchableOpacity>
+    )
+  };
 };
 
 export default withNavigation(ViewBlog);
@@ -40,5 +55,8 @@ const styles = StyleSheet.create({
   },
   content: {
     fontSize: 16
+  },
+  icon: {
+    marginRight: 15
   }
 });

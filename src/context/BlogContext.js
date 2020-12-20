@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const ADD_BLOG = "ADD_BLOG";
 const DELETE_BLOG = "DELETE_BLOG";
+const EDIT_BLOG = "EDIT_BLOG";
 
 const blogReducer = (state, action) => {
   const { type, payload } = action;
@@ -12,6 +13,11 @@ const blogReducer = (state, action) => {
 
     case DELETE_BLOG:
       return state.filter(blogPost => blogPost.id !== payload);
+
+    case EDIT_BLOG:
+      return state.map(blogPost => {
+        return blogPost.id === payload.id ? payload : blogPost;
+      });
 
     default:
       state;
@@ -31,9 +37,16 @@ const deleteBlogPost = dispatch => {
   };
 };
 
+const editBlogPost = dispatch => {
+  return (updatedBlogPost, callback) => {
+    dispatch({ type: EDIT_BLOG, payload: updatedBlogPost });
+    callback();
+  };
+};
+
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost },
+  { addBlogPost, deleteBlogPost, editBlogPost },
   [
     {
       id: uuidv4(),

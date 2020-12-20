@@ -41,7 +41,7 @@ IndexScreen.navigationOptions = ({ navigation }) => {
           name="pluscircle"
           size={28}
           color="black"
-          style={styles.addIcon}
+          style={styles.icon}
         />
       </TouchableOpacity>
     )
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "700"
   },
-  addIcon: {
+  icon: {
     marginRight: 15
   }
 });
