@@ -1,4 +1,5 @@
 import createDataContext from "./createDataContext";
+import { v4 as uuidv4 } from "uuid";
 
 const ADD_BLOG = "ADD_BLOG";
 const DELETE_BLOG = "DELETE_BLOG";
@@ -34,12 +35,14 @@ export const { Context, Provider } = createDataContext(
   { addBlogPost, deleteBlogPost },
   [
     {
-      id: 1,
-      title: "Sample Post 1"
+      id: uuidv4(),
+      title: "Sample Post 1",
+      content: "Sample Content of Blog 1"
     },
     {
-      id: 2,
-      title: "Sample Post 2"
+      id: uuidv4(),
+      title: "Sample Post 2",
+      content: "Sample Content of Blog 2"
     }
   ]
 );
