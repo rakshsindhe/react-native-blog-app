@@ -5,7 +5,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Context } from "../context/BlogContext";
@@ -13,11 +13,9 @@ import { Context } from "../context/BlogContext";
 const EditBlog = ({ navigation }) => {
   const id = navigation.getParam("id");
 
-  const { state = [], editBlogPost } = useContext(Context);
+  const { state = {}, editBlogPost } = useContext(Context);
 
-  const { title: blogTitle = "", content: blogContent = "" } = state.find(
-    blogpost => blogpost.id === id
-  );
+  const { title: blogTitle = "", content: blogContent = "" } = state;
 
   const [title, setTitle] = useState(blogTitle);
   const [content, setContent] = useState(blogContent);
@@ -60,6 +58,12 @@ const EditBlog = ({ navigation }) => {
   );
 };
 
+EditBlog.navigationOptions = ({ navigation }) => {
+  return {
+    title: "Edit Blog",
+  };
+};
+
 export default withNavigation(EditBlog);
 
 const styles = StyleSheet.create({
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     fontSize: 17,
-    marginBottom: 8
+    marginBottom: 8,
   },
   contentTextInput: {
     borderWidth: 1,
@@ -76,20 +80,20 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     minHeight: 150,
     textAlignVertical: "top",
-    maxHeight: 250
+    maxHeight: 250,
   },
   btn: {
     padding: 12,
     backgroundColor: "#3498DB",
     borderWidth: 1.5,
     borderColor: "#3498DB",
-    width: 100
+    width: 100,
   },
   disabledBtn: {
     backgroundColor: "#5d90b2",
     borderColor: "#5d90b2",
     padding: 12,
     borderWidth: 1.5,
-    width: 100
-  }
+    width: 100,
+  },
 });

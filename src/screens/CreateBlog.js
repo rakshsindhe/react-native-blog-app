@@ -5,11 +5,10 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Context as BlogContext } from "../context/BlogContext";
-import { v1 as uuidv4 } from "uuid";
 
 const CreateBlog = ({ navigation }) => {
   const { addBlogPost } = useContext(BlogContext);
@@ -18,11 +17,10 @@ const CreateBlog = ({ navigation }) => {
   const [content, setContent] = useState("");
 
   const handleOnBlogPostSubmit = () => {
-    const blogId = uuidv4();
-    addBlogPost({ id: blogId, title, content }, () => {
+    addBlogPost({ title, content }, () => {
       setTitle("");
       setContent("");
-      navigation.navigate("ViewBlogScreen", { id: blogId });
+      navigation.navigate("Index");
     });
   };
   return (
@@ -52,8 +50,13 @@ const CreateBlog = ({ navigation }) => {
         <Text style={{ fontSize: 18, textAlign: "center" }}>Save</Text>
       </TouchableOpacity>
     </View>
-  
   );
+};
+
+CreateBlog.navigationOptions = ({ navigation }) => {
+  return {
+    title: "Create Blog",
+  };
 };
 
 export default withNavigation(CreateBlog);
@@ -63,29 +66,29 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     fontSize: 17,
-    marginBottom: 8
+    marginBottom: 8,
   },
   contentTextInput: {
     borderWidth: 1,
     padding: 10,
     fontSize: 17,
-    marginBottom: 8,
+    marginBottom: 20,
     minHeight: 150,
     textAlignVertical: "top",
-    maxHeight: 250
+    maxHeight: 250,
   },
   btn: {
     padding: 12,
     backgroundColor: "#3498DB",
     borderWidth: 1.5,
     borderColor: "#3498DB",
-    width: 100
+    width: 100,
   },
   disabledBtn: {
     backgroundColor: "#5d90b2",
     borderColor: "#5d90b2",
     padding: 12,
     borderWidth: 1.5,
-    width: 100
-  }
+    width: 100,
+  },
 });
